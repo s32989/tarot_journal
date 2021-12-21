@@ -1,11 +1,15 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const helloRoutes = require('./routes/helloRoutes');
+
+mongoose.connect('mongodb://localhost/tarot_journal')
+const { connection } = mongoose
+connection.on('error', () => console.log('db error'))
+
 const app = express()
-const port = 3000
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+const appPort = 3000
+app.use(express.json())
+app.use('/hello', helloRoutes)
+app.listen(appPort, () => {
+    console.log(`API listening at http://localhost:${appPort}`)
 })
