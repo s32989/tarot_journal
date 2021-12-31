@@ -1,4 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
+import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -6,9 +7,22 @@ import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
 export default function EditScreenInfo({ path }: { path: string }) {
+  const [message, setMessage] = useState('');
+  // api call
+  useEffect(() => {
+    fetch('http://localhost:3000/hello')
+    .then((res) => res.json())
+    .then(({message}) => setMessage(message));
+  }, [])
   return (
     <View>
       <View style={styles.getStartedContainer}>
+
+        <Text
+          style={styles.getStartedText}>
+          A message from the API: <h1>{message}</h1>
+        </Text>
+        
         <Text
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
